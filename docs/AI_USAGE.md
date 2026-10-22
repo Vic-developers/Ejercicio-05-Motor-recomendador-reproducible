@@ -1,13 +1,13 @@
 # Declaración de uso de IA
 
-## Herramienta
+## Herramienta y propósito
 
-OpenAI Codex (GPT-6), como apoyo a programación, revisión del diseño de evaluación y redacción. La responsabilidad académica por el código, los resultados, las referencias y la defensa corresponde al estudiante.
+Se utilizó OpenAI Codex (GPT-6) como medio de apoyo para detectar y corregir errores del proyecto, y para revisar la coherencia de la ejecución y los resultados. La IA no reemplaza la responsabilidad del estudiante sobre el código entregado, las métricas, referencias y conclusiones.
 
-## Prompt relevante
+## Consultas relevantes
 
-Resumen fiel de la instrucción: «Completa el proyecto base de LAB08/LAB09 según el mandato del Ejercicio 05; integra evaluación reproducible de popularidad, contenido, factorización e híbrido con corte temporal, tres semillas, perfiles fríos, comparación Pareto, pruebas, documentación y PDF; publica en el repositorio indicado y no redistribuyas MovieLens».
+Las consultas se enfocaron en revisar y corregir errores del proyecto: ordenar de forma determinista eventos con timestamps empatados; resolver incompatibilidad de tipos al calcular similitud coseno; corregir el índice del baseline de popularidad; verificar la cohorte temporal y contrastar las métricas generadas.
 
 ## Verificaciones y correcciones
 
-Se descargó MovieLens directamente desde GroupLens, se verificó la auditoría local y el SHA-256, se ejecutó LAB08, se midieron los modelos en tres semillas y 587 eventos elegibles, se corrieron las siete pruebas y se generaron el notebook ejecutado y el PDF. La ejecución llevó a corregir el desempate temporal, explicitar la cohorte evaluable, resolver el índice del baseline de popularidad y pasar un vector compatible a la similitud coseno. Los resultados reportados provienen de los archivos locales generados por esos comandos; no se inventaron citas ni métricas. El MovieLens original no forma parte del repositorio.
+Se verificaron el SHA-256 y la auditoría de MovieLens, la ejecución de LAB08 y LAB09, las métricas en tres semillas, siete pruebas automatizadas y los archivos de informe. Las correcciones incluyeron desempate temporal por movieId, cohorte evaluable explícita, conversión compatible para coseno y el índice de popularidad. MovieLens no se incluyó en Git. El estudiante debe poder explicar y defender el contenido y las decisiones de la entrega.
