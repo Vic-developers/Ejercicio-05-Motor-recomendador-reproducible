@@ -1,0 +1,51 @@
+userId,movieId,rank,title
+1,318,1,"Shawshank Redemption, The (1994)"
+1,7153,2,"Lord of the Rings: The Return of the King, The (2003)"
+1,79132,3,Inception (2010)
+1,4993,4,"Lord of the Rings: The Fellowship of the Ring, The (2001)"
+1,6016,5,City of God (Cidade de Deus) (2002)
+1,48516,6,"Departed, The (2006)"
+1,858,7,"Godfather, The (1972)"
+1,5952,8,"Lord of the Rings: The Two Towers, The (2002)"
+1,1201,9,"Good, the Bad and the Ugly, The (Buono, il brutto, il cattivo, Il) (1966)"
+1,1225,10,Amadeus (1984)
+2,4993,1,"Lord of the Rings: The Fellowship of the Ring, The (2001)"
+2,380,2,True Lies (1994)
+2,69757,3,(500) Days of Summer (2009)
+2,63082,4,Slumdog Millionaire (2008)
+2,2396,5,Shakespeare in Love (1998)
+2,364,6,"Lion King, The (1994)"
+2,2571,7,"Matrix, The (1999)"
+2,1036,8,Die Hard (1988)
+2,7153,9,"Lord of the Rings: The Return of the King, The (2003)"
+2,5952,10,"Lord of the Rings: The Two Towers, The (2002)"
+3,1556,1,Speed 2: Cruise Control (1997)
+3,2720,2,Inspector Gadget (1999)
+3,196,3,Species (1995)
+3,2724,4,Runaway Bride (1999)
+3,1862,5,Species II (1998)
+3,1499,6,Anaconda (1997)
+3,1562,7,Batman & Robin (1997)
+3,2450,8,Howard the Duck (1986)
+3,2701,9,Wild Wild West (1999)
+3,3593,10,Battlefield Earth (2000)
+4,1215,1,Army of Darkness (1993)
+4,1207,2,To Kill a Mockingbird (1962)
+4,799,3,"Frighteners, The (1996)"
+4,4973,4,"Amelie (Fabuleux destin d'Amélie Poulain, Le) (2001)"
+4,3703,5,"Road Warrior, The (Mad Max 2) (1981)"
+4,858,6,"Godfather, The (1972)"
+4,43708,7,Block Party (a.k.a. Dave Chappelle's Block Party) (2005)
+4,2797,8,Big (1988)
+4,1244,9,Manhattan (1979)
+4,31162,10,"Life and Death of Peter Sellers, The (2004)"
+5,858,1,"Godfather, The (1972)"
+5,1235,2,Harold and Maude (1971)
+5,1221,3,"Godfather: Part II, The (1974)"
+5,1945,4,On the Waterfront (1954)
+5,1193,5,One Flew Over the Cuckoo's Nest (1975)
+5,750,6,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964)
+5,2858,7,American Beauty (1999)
+5,2959,8,Fight Club (1999)
+5,541,9,Blade Runner (1982)
+5,912,10,Casablanca (1942)

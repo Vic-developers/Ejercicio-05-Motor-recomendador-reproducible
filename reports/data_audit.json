@@ -1,0 +1,14 @@
+{
+  "dataset": "MovieLens Latest Small",
+  "source_url": "https://files.grouplens.org/datasets/movielens/ml-latest-small.zip",
+  "ratings": 100836,
+  "movies": 9742,
+  "users": 610,
+  "timestamp_min": 828124615,
+  "timestamp_max": 1537799250,
+  "density": 0.016968273253211548,
+  "sha256": "696d65a3dfceac7c45750ad32df2c259311949efec81f0f144fdfb91ebc9e436",
+  "downloaded_utc": "2026-10-22T01:11:55Z",
+  "eligible_test_events": 587,
+  "split": "latest timestamp event per user; same-time ties ordered by movieId; only train-known users/items evaluated"
+}

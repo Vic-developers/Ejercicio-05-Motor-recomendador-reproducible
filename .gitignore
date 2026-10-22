@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+data/raw/*
+!data/raw/.gitkeep
+models/*
+!models/.gitkeep
+
+.uv-cache/
+.uv-project-env/
+tmp/
