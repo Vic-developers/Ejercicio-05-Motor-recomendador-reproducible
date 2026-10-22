@@ -19,7 +19,8 @@ uv run pytest -q
 uv run python scripts/download_data.py
 uv run python scripts/audit_data.py
 uv run python scripts/lab08_content.py
-uv run python scripts/run_study.py --factors 20 --epochs 12 --seeds 17 42 73 --alphas 0.25 0.75
+uv run python scripts/run_study.py --configs 8 6 --configs 20 6 --configs 20 12 --seeds 17 42 73 --alphas 0.25 0.75
+uv run python scripts/build_deliverables.py
 uv run streamlit run app/streamlit_app.py
 ```
 
@@ -38,13 +39,17 @@ MovieLens Latest Small es un conjunto cambiante para desarrollo. Sus usuarios ti
 - **Colaborativo:** factorización de matriz con SGD, semilla fija, 20 factores y 12 épocas; los factores latentes no tienen interpretación humana directa.
 - **Híbrido:** combinación lineal de puntuación colaborativa normalizada y perfil TF-IDF ponderado por ratings por encima de 2.5. `alpha` de 0.25 y 0.75 pesa contenido y colaboración, respectivamente. El pool híbrido se limita a los 100 candidatos colaborativos mejor puntuados.
 
-El corte ordena por usuario y timestamp y retiene un último evento por usuario; empates de hora se resuelven determinísticamente por `movieId`. Solo se evalúa si usuario e ítem aparecen en entrenamiento: 587 eventos de prueba elegibles en la corrida adjunta. Por ello, el resultado no mide cold start. HitRate@10 cuenta usuarios cuyo único ítem retenido aparece en sus diez recomendaciones; no mide calidad más allá de ese objetivo binario. Cobertura divide ítems recomendados únicos entre los 9,742 ítems del catálogo. RMSE se reporta para modelos que predicen ratings. La comparación Pareto considera hit rate y cobertura mayores, con menor tiempo de ajuste y menor número de parámetros.
+El corte ordena por usuario, timestamp y `movieId` para resolver empates, y retiene un último evento por usuario. De 610 eventos retenidos, 587 tienen usuario e ítem conocidos por entrenamiento; los otros 23 se excluyen de HitRate@10 y RMSE. Se mide además el ranking por tamaño de historial: corto (hasta 34 ratings de entrenamiento, n=155) y amplio (desde 167, n=139). HitRate@10 evalúa el único evento retenido; cobertura divide ítems recomendados únicos entre 9,742 películas.
 
-La política para usuario sin historial es popularidad global; produce una lista, pero no es personalizada. La cobertura alta puede exponer más catálogo; no demuestra diversidad percibida. Sesgo de selección, popularidad, sobre-especialización, retroalimentación y falta de variables demográficas limitan las conclusiones.
+`recommend_for_user` tiene tres rutas comprobadas: usuario conocido recibe híbrido; usuario nuevo con historial recibe contenido; usuario sin historial recibe popularidad suavizada global, excluyendo ítems vistos. El caso sin historial se prueba funcionalmente, no tiene HitRate porque no existe historial para una evaluación temporal válida.
+
+La comparación Pareto prueba tres tamaños de entrenamiento (8 factores/6 épocas, 20/6 y 20/12), tres semillas, dos pesos híbridos, HitRate@10, cobertura, tiempo y parámetros. Los factores 20/12 bajan RMSE y suben HitRate, a costa del tiempo y menor cobertura; el modelo 20/6 da una opción de menor costo y cobertura amplia. Una configuración está dominada si otra no empeora utilidad ni costo y mejora al menos uno. Los resultados son offline; sesgo de selección, popularidad, sobre-especialización, retroalimentación y falta de demografía limitan conclusiones.
 
 ## Resultados adjuntos
 
-Las cifras de `reports/main_results.csv` comparan los cinco métodos bajo el mismo corte temporal y cohorte de 587 usuarios. Popularidad obtuvo HitRate@10 de 0.0017 y 0.13% de cobertura; contenido, 0.0000 y 14.95%; colaborativo, 0.0312 y 7.37%; híbrido α=.25, 0.0290 y 10.38%; híbrido α=.75, 0.0312 y 7.60%. Los modelos factorizados tienen RMSE medio 1.0272 (desviación estándar entre semillas 0.0056). Las cifras corresponden al ZIP cuyo hash aparece en `reports/data_audit.json`. α=.75 iguala el HitRate colaborativo y mejora marginalmente su cobertura; α=.25 sacrifica unos 0.0023 puntos de HitRate para sumar 2.78 puntos porcentuales de cobertura. Ambos pesos están en la frontera Pareto. Se recomienda α=.75 si se prioriza acertar el evento retenido; α=.25 si la prioridad es ampliar exposición. Esta diferencia es descriptiva, no una prueba de significancia.
+Los resultados completos por configuración y semilla están en `reports/main_results.csv` y `reports/seed_metrics.csv`. Popularidad suavizada logra HitRate@10=0.0324 con 0.63% de cobertura; contenido, 0.0000 y 14.95%. Para factorización: 8f/6e RMSE=1.108, HR=0.010, cobertura=11.1%, 6.7 s, 82,488 parámetros; 20f/6e RMSE=1.101, HR=0.020, cobertura=18.2%, 6.8 s, 206,220 parámetros; 20f/12e RMSE=1.027, HR=0.031, cobertura=7.4%, 13.6 s.
+
+Decisión: para el híbrido personalizado se elige 20f/6e con alpha=0.75 cuando se busca buen balance entre aciertos, cobertura y costo: frente a 20f/12e reduce el tiempo aproximadamente a la mitad y eleva cobertura de 7.6% a 18.2%, con HitRate@10 de 0.020 frente a 0.031. alpha=0.25 en 20f/6e aumenta cobertura a 21.2% y baja el HitRate a 0.010. La tabla Pareto conserva estas configuraciones como alternativas no dominadas; no hay una ganadora para todos los objetivos. La popularidad global acierta más que el híbrido, pero cubre menos de 1% del catálogo y concentra las listas. Las conclusiones son descriptivas, no pruebas de significancia.
 
 ## Pruebas
 
@@ -52,7 +57,7 @@ Las cifras de `reports/main_results.csv` comparan los cinco métodos bajo el mis
 uv run pytest -q
 ```
 
-Los tests verifican contratos de datos, exclusión del título consultado, split temporal, predicción finita y definiciones básicas de métricas. No sustituyen la inspección de datos ni validación en usuarios reales.
+Las pruebas cubren contratos de datos, recomendación por contenido, corte temporal, factorización, métricas y las tres rutas de usuario (híbrida conocida, contenido con usuario nuevo e historial, popularidad sin historial). La auditoría descriptiva y el muestreo de errores están en `reports/error_analysis.csv`; el detalle de perfiles y fallback, en `reports/profile_metrics.csv` y `reports/cold_start_validation.json`. No sustituyen validación con usuarios reales.
 
 ## Referencias
 

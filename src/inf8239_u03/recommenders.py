@@ -85,3 +85,55 @@ def temporal_leave_one_out(ratings: pd.DataFrame) -> tuple[pd.DataFrame, pd.Data
     test = ordered.groupby("userId", sort=False).tail(1)
     train = ordered.drop(test.index)
     return train.reset_index(drop=True), test.reset_index(drop=True)
+
+
+def recommend_for_user(
+    user_id: int,
+    ratings: pd.DataFrame,
+    movies: pd.DataFrame,
+    collaborative_model: MatrixFactorization,
+    content_model: ContentRecommender,
+    alpha: float = 0.75,
+    k: int = 10,
+    candidate_pool: int = 100,
+) -> pd.DataFrame:
+    """Return a recommendation list with an explicit no-history/user-cold fallback."""
+    if not 0.0 <= alpha <= 1.0:
+        raise ValueError("alpha debe estar entre 0 y 1")
+    if k < 1 or candidate_pool < 1:
+        raise ValueError("k y candidate_pool deben ser positivos")
+    seen_rows = ratings.loc[ratings["userId"].eq(user_id), ["movieId", "rating"]]
+    seen = set(seen_rows["movieId"].astype(int))
+    if seen_rows.empty:
+        popular = weighted_popularity(ratings, movies).reset_index()
+        popular = popular.loc[~popular["movieId"].isin(seen)].sort_values(["weighted_score", "count", "movieId"], ascending=[False, False, True]).head(k)
+        popular = popular.rename(columns={"weighted_score": "score"})
+        popular["recommendation_source"] = "global_popularity_cold_user"
+        return popular[["movieId", "title", "genres", "score", "recommendation_source"]].reset_index(drop=True)
+
+    movie_rows = {int(movie_id): row for row, movie_id in enumerate(content_model.movies["movieId"])}
+    history = seen_rows.loc[seen_rows["movieId"].isin(movie_rows)]
+    history_rows = [movie_rows[int(movie_id)] for movie_id in history["movieId"]]
+    weights = np.clip(history["rating"].to_numpy(dtype=float) - 2.5, 0.1, None)
+    profile = content_model.matrix[history_rows].multiply(weights[:, None]).sum(axis=0) / weights.sum()
+    profile = np.asarray(profile).reshape(1, -1)
+    candidates = content_model.movies.loc[~content_model.movies["movieId"].isin(seen)].copy()
+    candidate_rows = [movie_rows[int(movie_id)] for movie_id in candidates["movieId"]]
+    content_scores = cosine_similarity(profile, content_model.matrix[candidate_rows]).ravel()
+    candidates["content_score"] = content_scores
+
+    if user_id not in collaborative_model.user_index:
+        candidates["score"] = candidates["content_score"]
+        candidates["recommendation_source"] = "content_cold_user_with_history"
+    else:
+        candidate_ids = set(collaborative_model.items)
+        candidates = candidates.loc[candidates["movieId"].isin(candidate_ids)].copy()
+        collaborative = collaborative_model.top_n(user_id, seen, max(candidate_pool, k))
+        candidates = candidates.merge(collaborative, on="movieId", how="inner")
+        collab = candidates["collaborative_score"].to_numpy()
+        collab = (collab - collab.min()) / max(collab.max() - collab.min(), 1e-12)
+        content = candidates["content_score"].to_numpy()
+        content = (content - content.min()) / max(content.max() - content.min(), 1e-12)
+        candidates["score"] = alpha * collab + (1.0 - alpha) * content
+        candidates["recommendation_source"] = "hybrid"
+    return candidates.nlargest(k, "score")[["movieId", "title", "genres", "score", "recommendation_source"]].reset_index(drop=True)

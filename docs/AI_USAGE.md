@@ -10,4 +10,4 @@ Las consultas se enfocaron en revisar y corregir errores del proyecto: ordenar d
 
 ## Verificaciones y correcciones
 
-Se verificaron el SHA-256 y la auditoría de MovieLens, la ejecución de LAB08 y LAB09, las métricas en tres semillas, siete pruebas automatizadas y los archivos de informe. Las correcciones incluyeron desempate temporal por movieId, cohorte evaluable explícita, conversión compatible para coseno y el índice de popularidad. MovieLens no se incluyó en Git. El estudiante debe poder explicar y defender el contenido y las decisiones de la entrega.
+Se verificaron el SHA-256 y la auditoría de MovieLens, la ejecución de LAB08 y LAB09, las métricas en tres semillas, diez pruebas automatizadas y los archivos de informe. Las correcciones incluyeron desempate temporal por movieId, cohorte evaluable explícita, conversión compatible para coseno y el índice de popularidad. MovieLens no se incluyó en Git. El estudiante debe poder explicar y defender el contenido y las decisiones de la entrega.

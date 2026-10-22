@@ -1,5 +1,6 @@
 [
   {
+    "config":"20f_12e",
     "factors":20,
     "epochs":12,
     "alpha":0.25,
@@ -8,12 +9,13 @@
     "hit_rate_at_10":0.0289608177,
     "hit_rate_sd":0.003407155,
     "catalog_coverage":0.1038116745,
-    "fit_seconds":9.7510951667,
+    "fit_seconds":13.5635882333,
     "model_parameters":206220,
     "evaluated_users":587,
     "pareto_efficient":true
   },
   {
+    "config":"20f_12e",
     "factors":20,
     "epochs":12,
     "alpha":0.75,
@@ -22,9 +24,69 @@
     "hit_rate_at_10":0.0312322544,
     "hit_rate_sd":0.0054762355,
     "catalog_coverage":0.0760281941,
-    "fit_seconds":9.7510951667,
+    "fit_seconds":13.5635882333,
     "model_parameters":206220,
     "evaluated_users":587,
     "pareto_efficient":true
+  },
+  {
+    "config":"20f_6e",
+    "factors":20,
+    "epochs":6,
+    "alpha":0.25,
+    "rmse":1.100510304,
+    "rmse_sd":0.0055992255,
+    "hit_rate_at_10":0.0096536059,
+    "hit_rate_sd":0.0064496404,
+    "catalog_coverage":0.2123793882,
+    "fit_seconds":6.8329370667,
+    "model_parameters":206220,
+    "evaluated_users":587,
+    "pareto_efficient":true
+  },
+  {
+    "config":"20f_6e",
+    "factors":20,
+    "epochs":6,
+    "alpha":0.75,
+    "rmse":1.100510304,
+    "rmse_sd":0.0055992255,
+    "hit_rate_at_10":0.0204429302,
+    "hit_rate_sd":0.0061423361,
+    "catalog_coverage":0.1822349962,
+    "fit_seconds":6.8329370667,
+    "model_parameters":206220,
+    "evaluated_users":587,
+    "pareto_efficient":true
+  },
+  {
+    "config":"8f_6e",
+    "factors":8,
+    "epochs":6,
+    "alpha":0.25,
+    "rmse":1.1077573143,
+    "rmse_sd":0.0035220572,
+    "hit_rate_at_10":0.0124929018,
+    "hit_rate_sd":0.0019671219,
+    "catalog_coverage":0.1593444194,
+    "fit_seconds":6.7037105333,
+    "model_parameters":82488,
+    "evaluated_users":587,
+    "pareto_efficient":true
+  },
+  {
+    "config":"8f_6e",
+    "factors":8,
+    "epochs":6,
+    "alpha":0.75,
+    "rmse":1.1077573143,
+    "rmse_sd":0.0035220572,
+    "hit_rate_at_10":0.0096536059,
+    "hit_rate_sd":0.0019671219,
+    "catalog_coverage":0.1135290495,
+    "fit_seconds":6.7037105333,
+    "model_parameters":82488,
+    "evaluated_users":587,
+    "pareto_efficient":false
   }
 ]

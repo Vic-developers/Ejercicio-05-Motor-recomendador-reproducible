@@ -1,0 +1,35 @@
+{
+  "no_history_user": {
+    "source": "global_popularity_cold_user",
+    "recommendations": [
+      "Shawshank Redemption, The (1994)",
+      "Godfather, The (1972)",
+      "Fight Club (1999)",
+      "Star Wars: Episode IV - A New Hope (1977)",
+      "Usual Suspects, The (1995)",
+      "Godfather: Part II, The (1974)",
+      "Princess Bride, The (1987)",
+      "Goodfellas (1990)",
+      "Schindler's List (1993)",
+      "Dark Knight, The (2008)"
+    ],
+    "count": 10
+  },
+  "new_user_with_3_known_movies": {
+    "source": "content_cold_user_with_history",
+    "recommendations": [
+      "Chicken Little (2005)",
+      "Meet the Robinsons (2007)",
+      "Ratchet & Clank (2016)",
+      "WALL·E (2008)",
+      "Titan A.E. (2000)",
+      "Grand Day Out with Wallace and Gromit, A (1989)",
+      "Planet 51 (2009)",
+      "Iron Giant, The (1999)",
+      "Transformers: The Movie (1986)",
+      "Lilo & Stitch (2002)"
+    ],
+    "count": 10
+  },
+  "assertions": "both fallbacks returned 10 unseen recommendations"
+}
